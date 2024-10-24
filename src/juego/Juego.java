@@ -14,6 +14,7 @@ public class Juego extends InterfaceJuego
 	// Variables y métodos propios de cada grupo
 	private Islas[] islas;
 	private Image fondo;
+	private Casita casita;
 	
 	Juego()
 	{
@@ -38,6 +39,7 @@ public class Juego extends InterfaceJuego
                 this.islas[12] = new Islas(600, 650, 150, 45);
                 this.islas[13] = new Islas(850, 650, 150, 45);
                 this.islas[14] = new Islas(1100, 650, 150, 45);
+		this.casita = new Casita(600, 110, 0.03);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -53,6 +55,9 @@ public class Juego extends InterfaceJuego
 	{
 		// Procesamiento de un instante de tiempo
 		entorno.dibujarImagen(fondo, 600, 400, 0);
+
+		casita.getImageCasita();
+		casita.dibujarCasita(this.entorno);
 		
 		for(int i = 0; i < this.islas.length; i++) {
 			Islas islas = this.islas[i];
