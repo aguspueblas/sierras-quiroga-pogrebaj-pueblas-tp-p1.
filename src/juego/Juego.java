@@ -13,6 +13,7 @@ public class Juego extends InterfaceJuego
 	
 	// Variables y métodos propios de cada grupo
 	private Islas[] islas;
+	private Image fondo;
 	
 	Juego()
 	{
@@ -20,6 +21,7 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Al Rescate de los Gnomos", 1200, 800);
 		
 		// Inicializar lo que haga falta para el juego
+		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
 		this.islas = new Islas[15];
 		this.islas[0] = new Islas(600, 150, 150, 45);
 	        this.islas[1] = new Islas(475, 275, 150, 45);	
@@ -50,6 +52,8 @@ public class Juego extends InterfaceJuego
 	public void tick()
 	{
 		// Procesamiento de un instante de tiempo
+		entorno.dibujarImagen(fondo, 600, 400, 0);
+		
 		for(int i = 0; i < this.islas.length; i++) {
 			Islas islas = this.islas[i];
 			if(islas != null) {
