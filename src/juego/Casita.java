@@ -9,7 +9,7 @@ public class Casita {
 	private int x;
 	private int y;
 	private double escala;
-  private Image casitaI;
+        private Image casitaI;
 	
 	public Casita(int x, int y, double escala) {
 		this.x = x;
