@@ -17,7 +17,7 @@ public class Juego extends InterfaceJuego
 	Juego()
 	{
 		// Inicializa el objeto entorno
-		this.entorno = new Entorno(this, "Al Rescate de los Gnomos", 800, 600);
+		this.entorno = new Entorno(this, "Al Rescate de los Gnomos", 1200, 800);
 		
 		// Inicializar lo que haga falta para el juego
 		this.islas = new Islas[15];
