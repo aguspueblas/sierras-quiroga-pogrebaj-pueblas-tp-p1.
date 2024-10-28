@@ -9,7 +9,7 @@ public class Casita {
 	private int x;
 	private int y;
 	private double escala;
-        private Image casitaI;
+    private Image casitaI;
 	
 	public Casita(int x, int y, double escala) {
 		this.x = x;
@@ -36,6 +36,9 @@ public class Casita {
 
 	public double getEscala() {
 		return escala;
+	}
+	public Islas getIsla() {
+	    return new Islas(600, 110, 150, 45); // Devuelve la isla donde está la casita
 	}
 
 }
