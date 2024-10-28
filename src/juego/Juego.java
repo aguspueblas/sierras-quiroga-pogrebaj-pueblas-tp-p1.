@@ -29,21 +29,21 @@ public class Juego extends InterfaceJuego
 		// Inicializar lo que haga falta para el juego
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
 		this.islas = new Islas[15];
-		this.islas[0] = new Islas(600, 150, 150, 45);
-	        this.islas[1] = new Islas(475, 275, 150, 45);	
-                this.islas[2] = new Islas(725, 275, 150, 45);
-                this.islas[3] = new Islas(350, 400, 150, 45);
-                this.islas[4] = new Islas(600, 400, 150, 45);
-                this.islas[5] = new Islas(850, 400, 150, 45);
-                this.islas[6] = new Islas(225, 525, 150, 45);
-	        this.islas[7] = new Islas(475, 525, 150, 45);	
-                this.islas[8] = new Islas(725, 525, 150, 45);
-                this.islas[9] = new Islas(975, 525, 150, 45);
-                this.islas[10] = new Islas(100, 650, 150, 45);
-                this.islas[11] = new Islas(350, 650, 150, 45);
-                this.islas[12] = new Islas(600, 650, 150, 45);
-                this.islas[13] = new Islas(850, 650, 150, 45);
-                this.islas[14] = new Islas(1100, 650, 150, 45);
+		this.islas[0] = new Islas(600, 150, 150, 45, 0);
+	        this.islas[1] = new Islas(475, 275, 150, 45, 1);	
+                this.islas[2] = new Islas(725, 275, 150, 45, 1);
+                this.islas[3] = new Islas(350, 400, 150, 45, -1);
+                this.islas[4] = new Islas(600, 400, 150, 45, -1);
+                this.islas[5] = new Islas(850, 400, 150, 45, -1);
+                this.islas[6] = new Islas(225, 525, 150, 45, 1);
+	        this.islas[7] = new Islas(475, 525, 150, 45, 1);	
+                this.islas[8] = new Islas(725, 525, 150, 45, 1);
+                this.islas[9] = new Islas(975, 525, 150, 45, 1);
+                this.islas[10] = new Islas(100, 650, 150, 45, -1);
+                this.islas[11] = new Islas(350, 650, 150, 45, -1);
+                this.islas[12] = new Islas(600, 650, 150, 45, -1);
+                this.islas[13] = new Islas(850, 650, 150, 45, -1);
+                this.islas[14] = new Islas(1100, 650, 150, 45, -1);
 		this.casita = new Casita(600, 110, 0.03);
 		
 		
