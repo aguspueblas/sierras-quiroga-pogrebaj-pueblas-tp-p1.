@@ -18,43 +18,46 @@ public class Juego extends InterfaceJuego
 	private Tortuga[] tortugas;
 	private Casita casita;
 	private Random random;
+	private int contadorDeTiempo; // Contador para controlar la liberación de tortugas
 	private int tortugaActiva; // Índice de la tortuga activa que está cayendo
+	private Islas isla_seleccionada;
 	
 	Juego()
 	{
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Al Rescate de los Gnomos", 1200, 800);
+		this.contadorDeTiempo =0;
 		this.tortugaActiva=0;
-		
 		// Inicializar lo que haga falta para el juego
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
 		this.islas = new Islas[15];
-		this.islas[0] = new Islas(600, 150, 150, 45, 0);
-	        this.islas[1] = new Islas(475, 275, 150, 45, 1);	
-                this.islas[2] = new Islas(725, 275, 150, 45, 1);
-                this.islas[3] = new Islas(350, 400, 150, 45, -1);
-                this.islas[4] = new Islas(600, 400, 150, 45, -1);
-                this.islas[5] = new Islas(850, 400, 150, 45, -1);
-                this.islas[6] = new Islas(225, 525, 150, 45, 1);
-	        this.islas[7] = new Islas(475, 525, 150, 45, 1);	
-                this.islas[8] = new Islas(725, 525, 150, 45, 1);
-                this.islas[9] = new Islas(975, 525, 150, 45, 1);
-                this.islas[10] = new Islas(100, 650, 150, 45, -1);
-                this.islas[11] = new Islas(350, 650, 150, 45, -1);
-                this.islas[12] = new Islas(600, 650, 150, 45, -1);
-                this.islas[13] = new Islas(850, 650, 150, 45, -1);
-                this.islas[14] = new Islas(1100, 650, 150, 45, -1);
+		this.islas[0] = new Islas(600, 150, 150, 45);
+	    this.islas[1] = new Islas(475, 275, 150, 45);	
+        this.islas[2] = new Islas(725, 275, 150, 45);
+        this.islas[3] = new Islas(350, 400, 150, 45);
+        this.islas[4] = new Islas(600, 400, 150, 45);
+        this.islas[5] = new Islas(850, 400, 150, 45);
+        this.islas[6] = new Islas(225, 525, 150, 45);
+	    this.islas[7] = new Islas(475, 525, 150, 45);	
+        this.islas[8] = new Islas(725, 525, 150, 45);
+        this.islas[9] = new Islas(975, 525, 150, 45);
+        this.islas[10] = new Islas(100, 650, 150, 45);
+        this.islas[11] = new Islas(350, 650, 150, 45);
+        this.islas[12] = new Islas(600, 650, 150, 45);
+        this.islas[13] = new Islas(850, 650, 150, 45);
+        this.islas[14] = new Islas(1100, 650, 150, 45);
 		this.casita = new Casita(600, 110, 0.03);
 		
 		
 		  // Inicializar tortugas
-                this.tortugas = new Tortuga[5]; // Cantidad de tortugas
-                this.random = new Random();
+        this.tortugas = new Tortuga[5]; // Cantidad de tortugas
+        this.random = new Random();
 
-                for (int i = 0; i < tortugas.length; i++) {
-                     int x = random.nextInt(1200); // Posición aleatoria en x
-                     int y = 0; // Comienza desde la parte superior     
-                     tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
+        for (int i = 0; i < tortugas.length; i++) {
+            int x = random.nextInt(1200); // Posición aleatoria en x
+            int y = 0; // Comienza desde la parte superior
+            
+            tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
         }
 
 
@@ -78,7 +81,7 @@ public class Juego extends InterfaceJuego
 		// Dibuja y actualiza tortugas
 		
 		// Actualiza y dibuja las tortugas
-	        actualizarTortugas();
+	    actualizarTortugas();
 		
 		for(int i = 0; i < this.islas.length; i++) {
 			Islas islas = this.islas[i];
@@ -86,30 +89,19 @@ public class Juego extends InterfaceJuego
 				islas.dibujarIslas(this.entorno);
 				islas.getImageIslas();
 				islas.dibujarImagenIslas(this.entorno);
-				islas.movimiento();
-
-				if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
-					this.islas[3].rebotar();
-					this.islas[4].rebotar();
-					this.islas[5].rebotar();
-				}
-				
-				if (this.islas[1].tocaElBordeX() || this.islas[2].tocaElBordeX()) {
-					this.islas[1].rebotar();
-					this.islas[2].rebotar();
-				}							
-				
-				this.islas[6].reaparecerIzq();
-				this.islas[7].reaparecerIzq();
-				this.islas[8].reaparecerIzq();
-				this.islas[9].reaparecerIzq();
-				this.islas[10].reaparecerDer();
-				this.islas[11].reaparecerDer();
-				this.islas[12].reaparecerDer();
-				this.islas[13].reaparecerDer();
-				this.islas[14].reaparecerDer();
 		        }
 		}
+	}
+	
+	
+	private int countTortugasEnIsla() {
+		 int tortugasEnIsla = 0;
+		 for (int i = 0; i < tortugaActiva; i++) {
+		        if (tortugas[i].enIsla) {
+		            tortugasEnIsla++;
+		        } 
+		   }
+		 return tortugasEnIsla;
 	}
 	
 	
