@@ -258,7 +258,7 @@ public class Juego extends InterfaceJuego
 			{
 				if(this.gnomo[nuevoGnomo] == null)
 				{
-					this.gnomo[nuevoGnomo] = new Gnomo(600,90,20,40,1);
+					this.gnomo[nuevoGnomo] = new Gnomo(600,90,10,40,1);
 					break;
 				}
 			}
