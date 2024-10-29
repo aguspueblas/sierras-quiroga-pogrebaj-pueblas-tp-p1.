@@ -10,7 +10,7 @@ public class PepServicio {
 	private Islas[] islas;
 	private Tortuga[] tortugas;
 	//Constante: Rango de colision
-	private static final int RANGO_COLISION = 15;
+	private static final int RANGO_COLISION = 40;
 	
 	public PepServicio () {}
 	

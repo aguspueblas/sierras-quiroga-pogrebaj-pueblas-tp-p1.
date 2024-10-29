@@ -128,28 +128,28 @@ public class Juego extends InterfaceJuego
 				islas.dibujarIslas(this.entorno);
 				islas.getImageIslas();
 				islas.dibujarImagenIslas(this.entorno);
-//				islas.movimiento();
-//
-//				if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
-//					this.islas[3].rebotar();
-//					this.islas[4].rebotar();
-//					this.islas[5].rebotar();
-//				}
-//				
-//				if (this.islas[1].tocaElBordeX() || this.islas[2].tocaElBordeX()) {
-//					this.islas[1].rebotar();
-//					this.islas[2].rebotar();
-//				}							
-//				
-//				this.islas[6].reaparecerIzq();
-//				this.islas[7].reaparecerIzq();
-//				this.islas[8].reaparecerIzq();
-//				this.islas[9].reaparecerIzq();
-//				this.islas[10].reaparecerDer();
-//				this.islas[11].reaparecerDer();
-//				this.islas[12].reaparecerDer();
-//				this.islas[13].reaparecerDer();
-//				this.islas[14].reaparecerDer();
+				islas.movimiento();
+
+				if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
+					this.islas[3].rebotar();
+					this.islas[4].rebotar();
+					this.islas[5].rebotar();
+				}
+				
+				if (this.islas[1].tocaElBordeX() || this.islas[2].tocaElBordeX()) {
+					this.islas[1].rebotar();
+					this.islas[2].rebotar();
+				}							
+				
+				this.islas[6].reaparecerIzq();
+				this.islas[7].reaparecerIzq();
+				this.islas[8].reaparecerIzq();
+				this.islas[9].reaparecerIzq();
+				this.islas[10].reaparecerDer();
+				this.islas[11].reaparecerDer();
+				this.islas[12].reaparecerDer();
+				this.islas[13].reaparecerDer();
+				this.islas[14].reaparecerDer();
 		        }
 		}
 
@@ -372,7 +372,7 @@ public class Juego extends InterfaceJuego
 	}
 	
 	//Logica para las bolas de FUEGO:
-	// Movimiento y colision con las tortugas
+	// Movimiento y colision con las tortugas	
 	private void logicaBolasFuego () {
 		Nodo actual = bolasFuego.getPrimero();
 		while (actual != null) {
