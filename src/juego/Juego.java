@@ -27,17 +27,18 @@ public class Juego extends InterfaceJuego
 	private Image fondo;
 	private Tortuga[] tortugas;
 	private Casita casita;
-	private ListaEnlazada bolasFuegos =  new ListaEnlazada();
+	private ListaEnlazada bolasFuego =  new ListaEnlazada();
 	private Random random;
 	private int contadorDeTiempo; // Contador para controlar la liberación de tortugas
 	private int tortugaActiva; // Índice de la tortuga activa que está cayendo
 	private Islas isla_seleccionada;
 	private int tAntGnomo;
 	int cantMaxGnomos = 6;
-
+	//Contador de tortugas que son matadas por las bolas de fuego.
+	int cantTortugasMatadasPorPep = 0;
 	private Pep pep;
 	public PepServicio pepServicio;
-
+	
 	Juego()
 	{
 		// Inicializa el objeto entorno
@@ -80,6 +81,7 @@ public class Juego extends InterfaceJuego
             tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
         }
 		this.pep = new Pep(100, 601, 1);
+		
 		this.pepServicio = new PepServicio();
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -126,28 +128,28 @@ public class Juego extends InterfaceJuego
 				islas.dibujarIslas(this.entorno);
 				islas.getImageIslas();
 				islas.dibujarImagenIslas(this.entorno);
-				islas.movimiento();
-
-				if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
-					this.islas[3].rebotar();
-					this.islas[4].rebotar();
-					this.islas[5].rebotar();
-				}
-				
-				if (this.islas[1].tocaElBordeX() || this.islas[2].tocaElBordeX()) {
-					this.islas[1].rebotar();
-					this.islas[2].rebotar();
-				}							
-				
-				this.islas[6].reaparecerIzq();
-				this.islas[7].reaparecerIzq();
-				this.islas[8].reaparecerIzq();
-				this.islas[9].reaparecerIzq();
-				this.islas[10].reaparecerDer();
-				this.islas[11].reaparecerDer();
-				this.islas[12].reaparecerDer();
-				this.islas[13].reaparecerDer();
-				this.islas[14].reaparecerDer();
+//				islas.movimiento();
+//
+//				if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
+//					this.islas[3].rebotar();
+//					this.islas[4].rebotar();
+//					this.islas[5].rebotar();
+//				}
+//				
+//				if (this.islas[1].tocaElBordeX() || this.islas[2].tocaElBordeX()) {
+//					this.islas[1].rebotar();
+//					this.islas[2].rebotar();
+//				}							
+//				
+//				this.islas[6].reaparecerIzq();
+//				this.islas[7].reaparecerIzq();
+//				this.islas[8].reaparecerIzq();
+//				this.islas[9].reaparecerIzq();
+//				this.islas[10].reaparecerDer();
+//				this.islas[11].reaparecerDer();
+//				this.islas[12].reaparecerDer();
+//				this.islas[13].reaparecerDer();
+//				this.islas[14].reaparecerDer();
 		        }
 		}
 
@@ -160,7 +162,15 @@ public class Juego extends InterfaceJuego
  		// Actualizo los Gnomos
  		this.actualizarGnomos();
  		//logica pep
- 		this.pepServicio.logicaPep(entorno, pep, bolasFuegos, islas);
+ 		this.pepServicio.logicaPep(entorno, pep, bolasFuego, islas, tortugas);
+ 		boolean dispararBolaFuego = this.entorno.sePresiono('c');
+ 		if (dispararBolaFuego) {
+			BolaFuego bolaFuego = this.pep.lanzarBola(entorno);
+			this.bolasFuego.agregarAtras(bolaFuego);
+		}
+ 		if (bolasFuego.length() > 0) {
+ 			this.logicaBolasFuego();
+ 		}
 	}
 	
 	private void actualizarLimitesTortugas() {
@@ -361,7 +371,47 @@ public class Juego extends InterfaceJuego
 		}
 	}
 	
-
+	//Logica para las bolas de FUEGO:
+	// Movimiento y colision con las tortugas
+	private void logicaBolasFuego () {
+		Nodo actual = bolasFuego.getPrimero();
+		while (actual != null) {
+			//movimiento de bolas
+			int anchoPantalla = this.entorno.ancho();
+			if (actual.elemento.getX() > 0 && actual.elemento.getX() < anchoPantalla) {
+				if (actual.elemento.getDir()) { //Si debe moverse a la derecha
+					actual.elemento.moverDer();
+				} else { //Debe moverse a la izquierda
+					actual.elemento.moverIzq();
+				}
+				boolean colisionTortuga = false;
+				int contador = 0;
+				while (!colisionTortuga && contador < this.tortugas.length) {
+					colisionTortuga = this.colisionBolaFuegoConTortuga(actual.elemento, this.tortugas[contador]);
+					if (colisionTortuga) {
+						bolasFuego.quitar(actual.elemento);
+						this.reiniciarTortuga(this.tortugas[contador]);
+						this.cantTortugasMatadasPorPep++;
+					}
+					contador++;
+				}
+			} else {
+				bolasFuego.quitar(actual.elemento);
+			}
+			actual.elemento.dibujar(entorno);
+			actual = actual.siguiente;
+		}
+	}
+	
+	private boolean colisionBolaFuegoConTortuga (BolaFuego bolaFuego, Tortuga tortuga) {
+		boolean tocaX = tortuga.getX() - tortuga.getAncho()/2 <  bolaFuego.getX() &&
+				tortuga.getX() + tortuga.getAncho()/2 > bolaFuego.getX();
+		boolean tocaY = bolaFuego.getY() + bolaFuego.getRadio() > tortuga.getY() - tortuga.getAlto()/2
+				&& bolaFuego.getY() - bolaFuego.getRadio() < tortuga.getY() + tortuga.getAlto()/2;
+		
+		return tocaX && tocaY;
+		
+	}
 
 	
 	@SuppressWarnings("unused")

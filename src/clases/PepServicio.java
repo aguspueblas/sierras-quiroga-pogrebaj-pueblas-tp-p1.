@@ -1,22 +1,25 @@
 package clases;
 
 import entorno.Entorno;
+import juego.Tortuga;
 
 public class PepServicio {
 	private Entorno entorno;
 	private Pep pep;
 	private ListaEnlazada bolasFuego;
 	private Islas[] islas;
+	private Tortuga[] tortugas;
 	//Constante: Rango de colision
 	private static final int RANGO_COLISION = 15;
 	
 	public PepServicio () {}
 	
-	public void logicaPep (Entorno entorno, Pep pep, ListaEnlazada bolasFuego, Islas[] islas) {
+	public void logicaPep (Entorno entorno, Pep pep, ListaEnlazada bolasFuego, Islas[] islas, Tortuga[] tortugas) {
 		this.islas = islas;
 		this.entorno = entorno;
 		this.pep = pep;
 		this.bolasFuego = bolasFuego;
+		this.tortugas = tortugas;
 		Islas isla = this.islaCercanaPep();
 		
 		if (isla != null) {
@@ -29,7 +32,7 @@ public class PepServicio {
 		boolean pepMoverDer = this.entorno.estaPresionada(entorno.TECLA_DERECHA) || this.entorno.estaPresionada('d');;
 		boolean pepMoverIzq =  this.entorno.estaPresionada(entorno.TECLA_IZQUIERDA) || this.entorno.estaPresionada('a');
 		boolean pepSalto = this.entorno.estaPresionada(entorno.TECLA_ESPACIO);
-		boolean dispararBolaFuego = this.entorno.sePresiono('c');
+		
 		
 		if (!this.pep.getPepEnIsla()) {
 			this.pep.caer();
@@ -43,11 +46,8 @@ public class PepServicio {
 		if (!this.pepColisionConIslaParteBaja(isla) && pepSalto) {
 			this.pep.saltar();
 		}
-		if (dispararBolaFuego) {
-			BolaFuego bolaFuego = this.pep.lanzarBola(entorno);
-			this.bolasFuego.agregarAtras(bolaFuego);
-		}
-		this.logicaBolasFuego();
+		
+		
 	}
 	
 	private boolean pepColisionaEnY (Islas isla) {
@@ -132,23 +132,5 @@ public class PepServicio {
 		return islaEncontrada;
 	}
 	
-	private void logicaBolasFuego () {
-		Nodo actual = this.bolasFuego.getPrimero();
-		while (actual != null) {
-			//movimiento de bolas
-			int anchoPantalla = this.entorno.ancho();
-			if (actual.elemento.getX() > 0 && actual.elemento.getX() < anchoPantalla) {
-				if (actual.elemento.getDir()) { //Si debe moverse a la derecha
-					actual.elemento.moverDer();
-				} else { //Debe moverse a la izquierda
-					actual.elemento.moverIzq();
-				}
-			} else {
-				this.bolasFuego.quitar(actual.elemento);
-			}
-			actual.elemento.dibujar(entorno);
-			actual = actual.siguiente;
-		}
-	}
 	
 }
