@@ -38,7 +38,7 @@ public class Casita {
 		return escala;
 	}
 	public Islas getIsla() {
-	    return new Islas(600, 110, 150, 45); // Devuelve la isla donde está la casita
+	    return new Islas(600, 110, 150, 45,0); // Devuelve la isla donde está la casita
 	}
 
 }
