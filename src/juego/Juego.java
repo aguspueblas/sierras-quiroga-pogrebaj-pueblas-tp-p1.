@@ -1,3 +1,4 @@
+
 package juego;
 
 import java.awt.Image;
@@ -14,6 +15,7 @@ public class Juego extends InterfaceJuego
 	
 	// Variables y métodos propios de cada grupo
 	private Islas[] islas;
+	private Gnomo[] gnomo;
 	private Image fondo;
 	private Tortuga[] tortugas;
 	private Casita casita;
@@ -21,6 +23,8 @@ public class Juego extends InterfaceJuego
 	private int contadorDeTiempo; // Contador para controlar la liberación de tortugas
 	private int tortugaActiva; // Índice de la tortuga activa que está cayendo
 	private Islas isla_seleccionada;
+	private int tAntGnomo;
+	int cantMaxGnomos = 6;
 	
 	Juego()
 	{
@@ -30,6 +34,10 @@ public class Juego extends InterfaceJuego
 		this.tortugaActiva=0;
 		// Inicializar lo que haga falta para el juego
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
+		
+		this.gnomo = new Gnomo[cantMaxGnomos];
+		this.tAntGnomo = entorno.tiempo();
+			
 		this.islas = new Islas[15];
 		this.islas[0] = new Islas(600, 150, 150, 45);
 	    this.islas[1] = new Islas(475, 275, 150, 45);	
@@ -73,6 +81,14 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
+		// Si se presiona la 'p' hacemos el movimiento inicial
+		if(this.entorno.sePresiono('p')) {
+			for(Gnomo p: this.gnomo) {
+				if(p!= null){
+					p.iniciar(1);
+				}
+			}
+		}
 		// Procesamiento de un instante de tiempo
 		entorno.dibujarImagen(fondo, 600, 400, 0);
 
@@ -94,6 +110,12 @@ public class Juego extends InterfaceJuego
 		
 		// Actualizar límites de las tortugas que están en las islas
 	    actualizarLimitesTortugas();
+	    
+	    // Generacion de Gnomos
+	 		this.crearGnomos();
+	 		
+ 		// Actualizo los Gnomos
+ 		this.actualizarGnomos();
 	}
 	
 	private void actualizarLimitesTortugas() {
@@ -111,6 +133,18 @@ public class Juego extends InterfaceJuego
 	            }
 	        }
 	    }
+	}
+	
+	private boolean colisionTortugaGnomo(Tortuga tortuga, Gnomo gnomo) {
+	    // Verifica si la tortuga y el gnomo se solapan en el eje X
+	    boolean tocaX = tortuga.getX() + tortuga.getAncho() / 2 > gnomo.getX() - gnomo.getAncho() / 2 &&
+	                     tortuga.getX() - tortuga.getAncho() / 2 < gnomo.getX() + gnomo.getAncho() / 2;
+
+	    // Verifica si la tortuga y el gnomo se solapan en el eje Y
+	    boolean tocaY = tortuga.getY() + tortuga.getAlto() / 2 > gnomo.getY() - gnomo.getAlto() / 2 &&
+	                     tortuga.getY() - tortuga.getAlto() / 2 < gnomo.getY() + gnomo.getAlto() / 2;
+
+	    return tocaX && tocaY; // Retorna true si hay colisión
 	}
 	
 	
@@ -194,6 +228,93 @@ public class Juego extends InterfaceJuego
 	
 	    tortuga.setEnIsla(true, limiteIzquierdo, limiteDerecho, isla);
 	}
+	
+	boolean colisionGnomoIsla(Gnomo p) {
+        for (Islas isla : this.islas) {
+
+            // Verificar si el gnomo está sobre la isla en el eje X
+            boolean tocaX = p.getX() + p.getAncho() / 2 > isla.getX() - isla.getAncho() / 2 &&
+                            p.getX() - p.getAncho() / 2 < isla.getX() + isla.getAncho() / 2;
+
+            // Verificar si el gnomo está justo encima de la isla en el eje Y
+            boolean tocaY = p.getY() + p.getAlto() / 2 >= isla.getY() - isla.getAlto() / 2 &&
+                            p.getY() + p.getAlto() / 2 <= isla.getY() + isla.getAlto() / 2;
+
+            if (tocaX && tocaY) {
+                return true; // El gnomo está sobre una isla
+            }
+        }
+        return false;  // No se detectó ninguna isla debajo del gnomo
+    }
+
+	
+	private void crearGnomos()
+	{
+		if(entorno.tiempo() - this.tAntGnomo > 2500) //Crea nuevos gnomos
+		{
+			this.tAntGnomo = entorno.tiempo();
+        		
+			for(int nuevoGnomo = 0; nuevoGnomo < cantMaxGnomos ; nuevoGnomo++)
+			{
+				if(this.gnomo[nuevoGnomo] == null)
+				{
+					this.gnomo[nuevoGnomo] = new Gnomo(600,90,20,40,1);
+					break;
+				}
+			}
+		}
+	}
+	
+	private void actualizarGnomos()
+	{
+		for(int i = 0; i < this.gnomo.length; i++) {
+			
+			Gnomo p = this.gnomo[i];
+			
+			if(p != null) {
+				// Empiezo a visualizar al gnomo
+				p.dibujarGnomo(this.entorno);
+				p.getImageGnomo();
+				p.dibujarImagenGnomo(entorno);
+				
+				// Actualizo la posicion del gnomoo
+				if(p.cae() == true){
+					p.caer(); //ACTUALIZA SU POSICION Y CAE
+					
+					if(colisionGnomoIsla(p)) {
+						p.yaCayo(); //ACTUALIZAR SU ESTADO A CORRIENDO
+						p.cambioDirec(); //ACTUALIZAR SU DIRECCION
+					}
+				}
+				else if (p.cae() == false){ //LO HAGO CORRER
+					if(p.direc() == 0 && p.getX() + p.getAncho()/2 < this.entorno.ancho()) {
+						this.gnomo[i].moverseDer();
+					}
+					else if(p.direc() == 1 && p.getX() - p.getAncho() >= -10 ) {
+						this.gnomo[i].moverseIzq();
+					}
+					
+					if(!colisionGnomoIsla(p)) {
+						p.empiezaACaer(); //ACTUALIZAR SU ESTADO A CAYENDO
+					}
+				}
+			
+				if(p.getY() > 900) {
+					this.gnomo[i] = null;
+				}
+				 // Verifica colisiones con tortugas
+	            for (Tortuga tortuga : tortugas) {
+	                if (tortuga.enIsla == true && colisionTortugaGnomo(tortuga, p)) {
+	                    this.gnomo[i] = null; // Elimina el gnomo
+	                    break; // Sale del bucle si se elimina el gnomo
+	                }
+	            }
+			}
+			
+			
+		}
+	}
+	
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
