@@ -15,7 +15,8 @@ public class Islas {
 	private int velocidad;
 	private Image islasI;
 	
-	public Islas(int x, int y, int ancho, int alto) {
+
+	public Islas(int x, int y, int ancho, int alto, int velocidad) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
