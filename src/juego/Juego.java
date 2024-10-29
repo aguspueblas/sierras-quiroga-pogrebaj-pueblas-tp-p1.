@@ -142,7 +142,7 @@ public class Juego extends InterfaceJuego
 	    actualizarLimitesTortugas();
 	    
 	    // Generacion de Gnomos
-	 		this.crearGnomos();
+	 	this.crearGnomos();
 	 		
  		// Actualizo los Gnomos
  		this.actualizarGnomos();
