@@ -91,17 +91,9 @@ public class Juego extends InterfaceJuego
 				islas.dibujarImagenIslas(this.entorno);
 		        }
 		}
-	}
-	
-	
-	private int countTortugasEnIsla() {
-		 int tortugasEnIsla = 0;
-		 for (int i = 0; i < tortugaActiva; i++) {
-		        if (tortugas[i].enIsla) {
-		            tortugasEnIsla++;
-		        } 
-		   }
-		 return tortugasEnIsla;
+		
+		// Actualizar límites de las tortugas que están en las islas
+	    actualizarLimitesTortugas();
 	}
 	
 	
@@ -129,7 +121,7 @@ public class Juego extends InterfaceJuego
 	        Tortuga tortuga = tortugas[i];
 	        tortuga.actualizar(); // Actualiza la posición de la tortuga
 	        tortuga.dibujarTortuga(this.entorno);
-
+	        
 	        // Verifica si la tortuga ha caído
 	        if (tortuga.getY() > entorno.alto()) {
 	            reiniciarTortuga(tortuga); // REINICIA TORTUGA SI SE CAYO FUERA DE UNA ISLA
@@ -160,6 +152,7 @@ public class Juego extends InterfaceJuego
 	            // Verifica si la tortuga está en la parte superior de la isla
 	            if (tortuga.getY() + 40 >= isla.getY() && tortuga.getY() < isla.getY() + 45) { // 45 es la altura de la isla
 	                islaSeleccionada = isla;
+	                tortuga.setY(isla.getY() - 40); 
 	                tortuga.enIsla = true; // Se ha detectado que la tortuga está en una isla
 	                break; // Si la tortuga está en una isla, no necesita revisar las demás
 	            }
@@ -181,8 +174,7 @@ public class Juego extends InterfaceJuego
 	    } else if (tortuga.getX() > limiteDerecho) {
 	        tortuga.setX(limiteDerecho); // Mantiene la tortuga dentro del límite derecho
 	    }
-
-	    // Configura los límites en la tortuga
+	
 	    tortuga.setEnIsla(true, limiteIzquierdo, limiteDerecho, isla);
 	}
 
