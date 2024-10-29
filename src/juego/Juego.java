@@ -2,7 +2,14 @@
 package juego;
 
 import java.awt.Image;
-import java.awt.Color;
+
+import clases.BolaFuego;
+import clases.Casita;
+import clases.Islas;
+import clases.ListaEnlazada;
+import clases.Nodo;
+import clases.Pep;
+import clases.PepServicio;
 import entorno.Herramientas;
 import entorno.Entorno;
 import entorno.InterfaceJuego;
@@ -10,6 +17,7 @@ import java.util.Random;
 
 public class Juego extends InterfaceJuego
 {
+	
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	
@@ -19,13 +27,17 @@ public class Juego extends InterfaceJuego
 	private Image fondo;
 	private Tortuga[] tortugas;
 	private Casita casita;
+	private ListaEnlazada bolasFuegos =  new ListaEnlazada();
 	private Random random;
 	private int contadorDeTiempo; // Contador para controlar la liberación de tortugas
 	private int tortugaActiva; // Índice de la tortuga activa que está cayendo
 	private Islas isla_seleccionada;
 	private int tAntGnomo;
 	int cantMaxGnomos = 6;
-	
+
+	private Pep pep;
+	public PepServicio pepServicio;
+
 	Juego()
 	{
 		// Inicializa el objeto entorno
@@ -67,8 +79,8 @@ public class Juego extends InterfaceJuego
             
             tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
         }
-
-
+		this.pep = new Pep(100, 601, 1);
+		this.pepServicio = new PepServicio();
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
@@ -91,13 +103,14 @@ public class Juego extends InterfaceJuego
 		}
 		// Procesamiento de un instante de tiempo
 		entorno.dibujarImagen(fondo, 600, 400, 0);
-
 		casita.getImageCasita();
 		casita.dibujarCasita(this.entorno);
+
 		// Dibuja y actualiza tortugas
-		
 		// Actualiza y dibuja las tortugas
 	    actualizarTortugas();
+
+		this.pep.mostrar(entorno);
 		
 		/*for(int i = 0; i < this.islas.length; i++) {
 			Islas islas = this.islas[i];
@@ -146,6 +159,8 @@ public class Juego extends InterfaceJuego
 	 		
  		// Actualizo los Gnomos
  		this.actualizarGnomos();
+ 		//logica pep
+ 		this.pepServicio.logicaPep(entorno, pep, bolasFuegos, islas);
 	}
 	
 	private void actualizarLimitesTortugas() {
@@ -347,6 +362,8 @@ public class Juego extends InterfaceJuego
 	}
 	
 
+
+	
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
 	{
