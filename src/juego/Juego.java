@@ -36,6 +36,7 @@ public class Juego extends InterfaceJuego
 	int cantMaxGnomos = 6;
 	//Contador de tortugas que son matadas por las bolas de fuego.
 	int cantTortugasMatadasPorPep = 0;
+	private int tiempo, gPerdidos;
 	private Pep pep;
 	public PepServicio pepServicio;
 	
@@ -47,7 +48,7 @@ public class Juego extends InterfaceJuego
 		this.tortugaActiva=0;
 		// Inicializar lo que haga falta para el juego
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
-		
+		this.tiempo = entorno.tiempo();
 		this.gnomo = new Gnomo[cantMaxGnomos];
 		this.tAntGnomo = entorno.tiempo();
 			
@@ -95,6 +96,9 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
+		//Contadores
+		this.contadorGperdidos();
+		this.cronometro();
 		// Si se presiona la 'p' hacemos el movimiento inicial
 		if(this.entorno.sePresiono('p')) {
 			for(Gnomo p: this.gnomo) {
@@ -171,6 +175,26 @@ public class Juego extends InterfaceJuego
  		if (bolasFuego.length() > 0) {
  			this.logicaBolasFuego();
  		}
+	}
+
+	private void cronometro() {
+		int milisegundos = this.tiempo;
+		int segundos = 00;
+		int minutos = 00;
+		for(int m = 0; m < 300; m++) {			
+			    segundos = milisegundos/1000;
+			    minutos = segundos/60;
+			    if(segundos > 59)
+			    	segundos-=60;
+			}
+			entorno.escribirTexto("Tiempo: "+minutos+":"+segundos, 20, 40);
+		}
+
+	private void contadorGPerdidos() {
+		int i;
+		for(i = 0; i <= this.gnomo.length; i++) {
+			entorno.escribirTexto("Gnomos perdidos: "+gPerdidos, 20, 20);
+		}
 	}
 	
 	private void actualizarLimitesTortugas() {
@@ -357,11 +381,13 @@ public class Juego extends InterfaceJuego
 			
 				if(p.getY() > 900) {
 					this.gnomo[i] = null;
+					this.gPerdidos++;
 				}
 				 // Verifica colisiones con tortugas
 	            for (Tortuga tortuga : tortugas) {
 	                if (tortuga.enIsla == true && colisionTortugaGnomo(tortuga, p)) {
 	                    this.gnomo[i] = null; // Elimina el gnomo
+				this.gPerdidos++;
 	                    break; // Sale del bucle si se elimina el gnomo
 	                }
 	            }
