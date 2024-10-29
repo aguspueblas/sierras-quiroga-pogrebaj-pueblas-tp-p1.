@@ -110,7 +110,27 @@ public class Juego extends InterfaceJuego
 				this.islas[14].reaparecerDer();
 		        }
 		}
+		// Actualizar límites de las tortugas que están en las islas
+	    actualizarLimitesTortugas();
 	}
+	
+	private void actualizarLimitesTortugas() {
+	    for (Tortuga tortuga : tortugas) {
+	        if (tortuga.enIsla) { // Si la tortuga está en una isla
+	            // Obtener la isla actual de la tortuga
+	            Islas isla = tortuga.getIsla();
+	            if (isla != null) {
+	                // Actualizar los límites según la posición actual de la isla
+	                double limiteIzquierdo = isla.getX() - isla.getAncho() / 2;
+	                double limiteDerecho = isla.getX() + isla.getAncho() / 2;
+
+	                // Configurar los límites actualizados en la tortuga
+	                tortuga.setLimites(limiteIzquierdo, limiteDerecho);
+	            }
+	        }
+	    }
+	}
+
 	
 	
 	private boolean hayTortugaEnIsla(Islas isla) {
@@ -137,7 +157,7 @@ public class Juego extends InterfaceJuego
 	        Tortuga tortuga = tortugas[i];
 	        tortuga.actualizar(); // Actualiza la posición de la tortuga
 	        tortuga.dibujarTortuga(this.entorno);
-
+	        
 	        // Verifica si la tortuga ha caído
 	        if (tortuga.getY() > entorno.alto()) {
 	            reiniciarTortuga(tortuga); // REINICIA TORTUGA SI SE CAYO FUERA DE UNA ISLA
@@ -168,6 +188,7 @@ public class Juego extends InterfaceJuego
 	            // Verifica si la tortuga está en la parte superior de la isla
 	            if (tortuga.getY() + 40 >= isla.getY() && tortuga.getY() < isla.getY() + 45) { // 45 es la altura de la isla
 	                islaSeleccionada = isla;
+	                tortuga.setY(isla.getY() - 40); 
 	                tortuga.enIsla = true; // Se ha detectado que la tortuga está en una isla
 	                break; // Si la tortuga está en una isla, no necesita revisar las demás
 	            }
@@ -189,8 +210,7 @@ public class Juego extends InterfaceJuego
 	    } else if (tortuga.getX() > limiteDerecho) {
 	        tortuga.setX(limiteDerecho); // Mantiene la tortuga dentro del límite derecho
 	    }
-
-	    // Configura los límites en la tortuga
+	
 	    tortuga.setEnIsla(true, limiteIzquierdo, limiteDerecho, isla);
 	}
 
