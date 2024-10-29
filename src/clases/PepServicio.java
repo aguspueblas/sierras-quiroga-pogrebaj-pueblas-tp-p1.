@@ -1,25 +1,19 @@
 package clases;
-
 import entorno.Entorno;
-import juego.Tortuga;
 
 public class PepServicio {
 	private Entorno entorno;
 	private Pep pep;
-	private ListaEnlazada bolasFuego;
 	private Islas[] islas;
-	private Tortuga[] tortugas;
 	//Constante: Rango de colision
-	private static final int RANGO_COLISION = 40;
+	private static final int RANGO_COLISION = 20;
 	
 	public PepServicio () {}
 	
-	public void logicaPep (Entorno entorno, Pep pep, ListaEnlazada bolasFuego, Islas[] islas, Tortuga[] tortugas) {
+	public void logicaPep (Entorno entorno, Pep pep, Islas[] islas) {
 		this.islas = islas;
 		this.entorno = entorno;
 		this.pep = pep;
-		this.bolasFuego = bolasFuego;
-		this.tortugas = tortugas;
 		Islas isla = this.islaCercanaPep();
 		
 		if (isla != null) {
@@ -131,6 +125,5 @@ public class PepServicio {
 		
 		return islaEncontrada;
 	}
-	
 	
 }

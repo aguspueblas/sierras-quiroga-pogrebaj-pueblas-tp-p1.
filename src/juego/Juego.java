@@ -1,6 +1,7 @@
 
 package juego;
 
+import java.awt.Color;
 import java.awt.Image;
 
 import clases.BolaFuego;
@@ -39,6 +40,7 @@ public class Juego extends InterfaceJuego
 	private int tiempo, gPerdidos;
 	private Pep pep;
 	public PepServicio pepServicio;
+	private boolean enMenu = true;
 	
 	Juego()
 	{
@@ -81,7 +83,7 @@ public class Juego extends InterfaceJuego
             
             tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
         }
-		this.pep = new Pep(100, 601, 1);
+		this.pep = new Pep(100, 600, 1);
 		
 		this.pepServicio = new PepServicio();
 		// Inicia el juego!
@@ -96,86 +98,105 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
-		// Si se presiona la 'p' hacemos el movimiento inicial
-		if(this.entorno.sePresiono('p')) {
-			for(Gnomo p: this.gnomo) {
-				if(p!= null){
-					p.iniciar(1);
-				}
-			}
-		}
 		// Procesamiento de un instante de tiempo
 		entorno.dibujarImagen(fondo, 600, 400, 0);
-		casita.getImageCasita();
-		casita.dibujarCasita(this.entorno);
-
-		// Dibuja y actualiza tortugas
-		// Actualiza y dibuja las tortugas
-	    actualizarTortugas();
-
-		this.pep.mostrar(entorno);
-		
-		/*for(int i = 0; i < this.islas.length; i++) {
-			Islas islas = this.islas[i];
-			if(islas != null) {
-				islas.dibujarIslas(this.entorno);
-				islas.getImageIslas();
-				islas.dibujarImagenIslas(this.entorno);
-		        }
-		}*/
-	    for(int i = 0; i < this.islas.length; i++) {
-			Islas islas = this.islas[i];
-			if(islas != null) {
-				islas.dibujarIslas(this.entorno);
-				islas.getImageIslas();
-				islas.dibujarImagenIslas(this.entorno);
-				islas.movimiento();
-
-				if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
-					this.islas[3].rebotar();
-					this.islas[4].rebotar();
-					this.islas[5].rebotar();
-				}
-				
-				if (this.islas[1].tocaElBordeX() || this.islas[2].tocaElBordeX()) {
-					this.islas[1].rebotar();
-					this.islas[2].rebotar();
-				}							
-				
-				this.islas[6].reaparecerIzq();
-				this.islas[7].reaparecerIzq();
-				this.islas[8].reaparecerIzq();
-				this.islas[9].reaparecerIzq();
-				this.islas[10].reaparecerDer();
-				this.islas[11].reaparecerDer();
-				this.islas[12].reaparecerDer();
-				this.islas[13].reaparecerDer();
-				this.islas[14].reaparecerDer();
-		        }
-		}
-
-		// Actualizar límites de las tortugas que están en las islas
-	    actualizarLimitesTortugas();
-	    
-	    // Generacion de Gnomos
-	 	this.crearGnomos();
-	 		
- 		// Actualizo los Gnomos
- 		this.actualizarGnomos();
- 		//logica pep
- 		this.pepServicio.logicaPep(entorno, pep, bolasFuego, islas, tortugas);
- 		boolean dispararBolaFuego = this.entorno.sePresiono('c');
- 		if (dispararBolaFuego) {
-			BolaFuego bolaFuego = this.pep.lanzarBola(entorno);
-			this.bolasFuego.agregarAtras(bolaFuego);
-		}
- 		if (bolasFuego.length() > 0) {
- 			this.logicaBolasFuego();
- 		}
 		//Contadores
 		this.contadorGPerdidos();
 		this.cronometro();
 		this.contadorTEliminadas();
+		boolean murioPep = this.murioPep();
+		if (enMenu) {
+	        dibujarMenu();
+	        if (entorno.sePresiono(entorno.TECLA_ESCAPE))
+	        	System.exit(0);
+	        if (entorno.sePresiono(entorno.TECLA_ENTER)) { // Inicia el juego al presionar 'e'
+	            enMenu = false;
+	        }
+		} else {
+			if (murioPep) {
+				this.pep = null;
+				this.finJuego();
+			} else {
+				// Si se presiona la 'p' hacemos el movimiento inicial
+				if(this.entorno.sePresiono('p')) {
+					for(Gnomo p: this.gnomo) {
+						if(p!= null){
+							p.iniciar(1);
+						}
+					}
+				}
+				
+				casita.getImageCasita();
+				casita.dibujarCasita(this.entorno);
+	
+				// Dibuja y actualiza tortugas
+				// Actualiza y dibuja las tortugas
+			    actualizarTortugas();
+				this.pep.mostrar(entorno);
+				/*for(int i = 0; i < this.islas.length; i++) {
+					Islas islas = this.islas[i];
+					if(islas != null) {
+						islas.dibujarIslas(this.entorno);
+						islas.getImageIslas();
+						islas.dibujarImagenIslas(this.entorno);
+				        }
+				}*/
+			    for(int i = 0; i < this.islas.length; i++) {
+					Islas islas = this.islas[i];
+					if(islas != null) {
+						islas.dibujarIslas(this.entorno);
+						islas.getImageIslas();
+						islas.dibujarImagenIslas(this.entorno);
+		//				islas.movimiento();
+		//
+		//				if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
+		//					this.islas[3].rebotar();
+		//					this.islas[4].rebotar();
+		//					this.islas[5].rebotar();
+		//				}
+		//				
+		//				if (this.islas[1].tocaElBordeX() || this.islas[2].tocaElBordeX()) {
+		//					this.islas[1].rebotar();
+		//					this.islas[2].rebotar();
+		//				}							
+		//				
+		//				this.islas[6].reaparecerIzq();
+		//				this.islas[7].reaparecerIzq();
+		//				this.islas[8].reaparecerIzq();
+		//				this.islas[9].reaparecerIzq();
+		//				this.islas[10].reaparecerDer();
+		//				this.islas[11].reaparecerDer();
+		//				this.islas[12].reaparecerDer();
+		//				this.islas[13].reaparecerDer();
+		//				this.islas[14].reaparecerDer();
+				        }
+				}
+		
+				// Actualizar límites de las tortugas que están en las islas
+			    actualizarLimitesTortugas();
+			    
+			    // Generacion de Gnomos
+			 	this.crearGnomos();
+			 		
+		 		// Actualizo los Gnomos
+		 		this.actualizarGnomos();
+		 		//logica pep
+		 		this.pepServicio.logicaPep(entorno, pep, islas);
+		 		boolean dispararBolaFuego = this.entorno.sePresiono('c');
+		 		if (dispararBolaFuego) {
+					BolaFuego bolaFuego = this.pep.lanzarBola(entorno);
+					this.bolasFuego.agregarAtras(bolaFuego);
+				}
+		 		if (bolasFuego.length() > 0) {
+		 			this.logicaBolasFuego();
+		 		}
+		 		if (bolasFuego.length() > 0) {
+		 			this.logicaBolasFuego();
+		 		}
+				
+			}
+		}
+ 		
 	}
 
 	private void cronometro() {
@@ -197,6 +218,10 @@ public class Juego extends InterfaceJuego
 
 	private void contadorTEliminadas() {
 			entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 20, 60);		
+	}
+	
+	private void finJuego() {
+		entorno.escribirTexto("FIN DEL JUEGO!" , entorno.ancho()/2, entorno.alto()/2);		
 	}
 	
 	private void actualizarLimitesTortugas() {
@@ -440,7 +465,54 @@ public class Juego extends InterfaceJuego
 		return tocaX && tocaY;
 		
 	}
+	
+	private boolean murioPep () {
+		
+		boolean tocaX = false;
+		boolean tocaY = false;
+		boolean colision = false;
+		boolean pepCayoPrecipio = false;
+		int contador = 0;
+		if (this.pep != null) {
+			while (!colision && contador < this.tortugas.length) {
+				Tortuga tortuga = this.tortugas[contador];
+				tocaX = this.pep.getX() - this.pep.getAncho()/2 < tortuga.getX() + tortuga.getAncho()/2 
+						&& this.pep.getX() + this.pep.getAncho()/2 > tortuga.getX() - tortuga.getAncho()/2;
+				tocaY = this.pep.getY() - this.pep.getAlto()/2 < tortuga.getY() + tortuga.getAlto()/2
+							&& this.pep.getY() + this.pep.getAlto()/2 > tortuga.getY() - tortuga.getAlto()/2;
+				colision = tocaX && tocaY;
+				contador++;
+				
+			}
+				int altoPantalla = this.entorno.alto();
+				pepCayoPrecipio = this.pep.getY() > altoPantalla;
+		} else {
+			colision = true;
+		}
+		return colision || pepCayoPrecipio;
+	}
+	
+	Color miColor = new Color ( 0, 143, 57);
+	Color miColor2 = new Color ( 204, 169, 221);
+	private void dibujarMenu() {
+	    entorno.dibujarImagen(fondo, 600, 400, 0); // Dibuja el fondo
+	    entorno.cambiarFont("Old English Text MT", 60, Color.WHITE, entorno.ITALICA);
+	    entorno.escribirTexto("¡Al Rescate de los Gnomos!", 273, 103);
+	    entorno.cambiarFont("Old English Text MT", 60, miColor2, entorno.ITALICA);
+	    entorno.escribirTexto("¡Al Rescate de los Gnomos!", 272, 102);
+	    entorno.cambiarFont("Old English Text MT", 60, miColor, entorno.ITALICA);
+	    entorno.escribirTexto("¡Al Rescate de los Gnomos!", 270, 100);
+	    entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
+	    entorno.escribirTexto("Presiona 'enter' para jugar", 353, 303);
+	    entorno.escribirTexto("Presiona 'escape' para salir", 353, 403);
+	    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor2);
+	    entorno.escribirTexto("Presiona 'enter' para jugar", 352, 302);
+	    entorno.escribirTexto("Presiona 'escape' para salir", 352, 402);
+	    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor);
+	    entorno.escribirTexto("Presiona 'enter' para jugar", 350, 300);
+	    entorno.escribirTexto("Presiona 'escape' para salir", 350, 400);
 
+	}
 	
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
