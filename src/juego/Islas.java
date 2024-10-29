@@ -1,3 +1,4 @@
+
 package juego;
 
 import java.awt.Image;
@@ -14,7 +15,7 @@ public class Islas {
 	private int velocidad;
 	private Image islasI;
 	
-	public Islas(int x, int y, int ancho, int alto, int velocidad) {
+	public Islas(int x, int y, int ancho, int alto) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
@@ -79,3 +80,4 @@ public class Islas {
 	}
 
 }
+

@@ -17,6 +17,8 @@ public class Tortuga {
     private Islas islaActual;
     private boolean direccionDerecha; 
     private double velocidadX; // Velocidad de movimiento en el eje X
+    private double ancho; // Ancho de la tortuga
+    private double alto; // Alto de la tortuga
     
     public Tortuga(int x, int y, double velocidadY) {
         this.x = x;
@@ -27,6 +29,8 @@ public class Tortuga {
         this.imgTortuga = Herramientas.cargarImagen("imagenes/tortuga.png");
         this.escala = 0.11; // Ajusta la escala según necesites
         this.velocidadX =1.5;
+        this.ancho = 40;
+        this.alto = 30;
     }
     
     public void setLimites(double limiteIzquierdo, double limiteDerecho) {
@@ -36,6 +40,13 @@ public class Tortuga {
 
     public Islas getIsla() {
         return this.islaActual;
+    }
+    
+    public double getAncho() {
+        return this.ancho;
+    }
+    public double getAlto() {
+        return this.alto;
     }
     public void actualizar() {
         if (!enIsla) {
