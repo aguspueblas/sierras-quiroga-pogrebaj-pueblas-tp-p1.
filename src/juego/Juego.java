@@ -99,6 +99,7 @@ public class Juego extends InterfaceJuego
 		//Contadores
 		this.contadorGperdidos();
 		this.cronometro();
+		this.contadorTEliminadas();
 		// Si se presiona la 'p' hacemos el movimiento inicial
 		if(this.entorno.sePresiono('p')) {
 			for(Gnomo p: this.gnomo) {
@@ -187,14 +188,15 @@ public class Juego extends InterfaceJuego
 			    if(segundos > 59)
 			    	segundos-=60;
 			}
-			entorno.escribirTexto("Tiempo: "+minutos+":"+segundos, 20, 40);
+			entorno.escribirTexto("Tiempo: "+minutos+":"+segundos, 20, 20);
 		}
 
 	private void contadorGPerdidos() {
-		int i;
-		for(i = 0; i <= this.gnomo.length; i++) {
-			entorno.escribirTexto("Gnomos perdidos: "+gPerdidos, 20, 20);
-		}
+			entorno.escribirTexto("Gnomos perdidos: "+gPerdidos, 20, 40);
+	}
+
+	private void contadorTEliminadas() {
+			entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 20, 60);		
 	}
 	
 	private void actualizarLimitesTortugas() {
