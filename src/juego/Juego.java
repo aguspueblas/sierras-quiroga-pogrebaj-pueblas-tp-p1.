@@ -96,6 +96,23 @@ public class Juego extends InterfaceJuego
 	    actualizarLimitesTortugas();
 	}
 	
+	private void actualizarLimitesTortugas() {
+	    for (Tortuga tortuga : tortugas) {
+	        if (tortuga.enIsla) { // Si la tortuga está en una isla
+	            // Obtener la isla actual de la tortuga
+	            Islas isla = tortuga.getIsla();
+	            if (isla != null) {
+	                // Actualizar los límites según la posición actual de la isla
+	                double limiteIzquierdo = isla.getX() - isla.getAncho() / 2;
+	                double limiteDerecho = isla.getX() + isla.getAncho() / 2;
+
+	                // Configurar los límites actualizados en la tortuga
+	                tortuga.setLimites(limiteIzquierdo, limiteDerecho);
+	            }
+	        }
+	    }
+	}
+	
 	
 	private boolean hayTortugaEnIsla(Islas isla) {
 	    // Recorre todas las tortugas
