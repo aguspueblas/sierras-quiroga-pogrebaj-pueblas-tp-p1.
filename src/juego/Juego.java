@@ -96,10 +96,6 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
-		//Contadores
-		this.contadorGperdidos();
-		this.cronometro();
-		this.contadorTEliminadas();
 		// Si se presiona la 'p' hacemos el movimiento inicial
 		if(this.entorno.sePresiono('p')) {
 			for(Gnomo p: this.gnomo) {
@@ -176,6 +172,10 @@ public class Juego extends InterfaceJuego
  		if (bolasFuego.length() > 0) {
  			this.logicaBolasFuego();
  		}
+		//Contadores
+		this.contadorGPerdidos();
+		this.cronometro();
+		this.contadorTEliminadas();
 	}
 
 	private void cronometro() {
