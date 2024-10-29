@@ -1,6 +1,8 @@
 package juego;
 
 import java.awt.Image;
+
+import clases.Islas;
 import entorno.Entorno;
 import entorno.Herramientas;
 
