@@ -7,7 +7,7 @@ public class PepServicio {
 	private Islas[] islas;
 	//Constante: Rango de colision
 	private static final int RANGO_COLISION = 20;
-	
+	private static final int PEP_MAX_Y = 400;
 	public PepServicio () {}
 	
 	public void logicaPep (Entorno entorno, Pep pep, Islas[] islas) {
@@ -31,13 +31,13 @@ public class PepServicio {
 		if (!this.pep.getPepEnIsla()) {
 			this.pep.caer();
 		} 
-		if (!pepColisionConIslaParteDerecha(isla) && pepMoverDer){
+		if (!pepColisionConIslaParteDerecha(isla) && pepMoverDer ){
 			this.pep.moverHaciaDerecha();
 		}
 		if (!pepColisionConIslaParteIzquierda(isla) && pepMoverIzq) {
 			this.pep.moverHaciaIzquierda();
 		}
-		if (!this.pepColisionConIslaParteBaja(isla) && pepSalto) {
+		if (!this.pepColisionConIslaParteBaja(isla) && pepSalto && this.pep.getY() > PEP_MAX_Y + 150/2) {
 			this.pep.saltar();
 		}
 		

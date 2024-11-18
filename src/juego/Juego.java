@@ -56,16 +56,21 @@ public class Juego extends InterfaceJuego
 		this.tAntGnomo = entorno.tiempo();
 			
 		this.islas = new Islas[15];
+		//Isla de la casa gnomos
 		this.islas[0] = new Islas(600, 150, 150, 45, 0);
+		//Segunda fila de isla de abajo hacia arriba
 	    this.islas[1] = new Islas(475, 275, 150, 45, 1);	
         this.islas[2] = new Islas(725, 275, 150, 45, 1);
+        //Tercer fila de isla de abajo hacia arriba
         this.islas[3] = new Islas(350, 400, 150, 45, -1);
         this.islas[4] = new Islas(600, 400, 150, 45, -1);
         this.islas[5] = new Islas(850, 400, 150, 45, -1);
+        //ante ultimo fila de islas.
         this.islas[6] = new Islas(225, 525, 150, 45, 1);
 	    this.islas[7] = new Islas(475, 525, 150, 45, 1);	
         this.islas[8] = new Islas(725, 525, 150, 45, 1);
         this.islas[9] = new Islas(975, 525, 150, 45, 1);
+        //Ultima fila de islas
         this.islas[10] = new Islas(100, 650, 150, 45, -1);
         this.islas[11] = new Islas(350, 650, 150, 45, -1);
         this.islas[12] = new Islas(600, 650, 150, 45, -1);
@@ -145,7 +150,7 @@ public class Juego extends InterfaceJuego
 						islas.dibujarIslas(this.entorno);
 						islas.getImageIslas();
 						islas.dibujarImagenIslas(this.entorno);
-						islas.movimiento();
+						//islas.movimiento();
 		
 						if (this.islas[5].tocaElBordeX() || this.islas[3].tocaElBordeX()) {
 							this.islas[3].rebotar();
