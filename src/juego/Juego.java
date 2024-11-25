@@ -53,7 +53,7 @@ public class Juego extends InterfaceJuego
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
 		this.tiempo = entorno.tiempo();
 		this.gnomo = new Gnomo[cantMaxGnomos];
-		this.tAntGnomo = entorno.tiempo();
+		this.tAntGnomo = 0;
 			
 		this.islas = new Islas[15];
 		//Isla de la casa gnomos
@@ -85,7 +85,7 @@ public class Juego extends InterfaceJuego
 
         for (int i = 0; i < tortugas.length; i++) {
             int x = random.nextInt(1200); // Posición aleatoria en x
-            int y = 0; // Comienza desde la parte superior
+            int y = 400; // Comienza desde la parte superior
             
             tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
         }
@@ -190,9 +190,6 @@ public class Juego extends InterfaceJuego
 					BolaFuego bolaFuego = this.pep.lanzarBola(entorno);
 					this.bolasFuego.agregarAtras(bolaFuego);
 				}
-		 		if (bolasFuego.length() > 0) {
-		 			this.logicaBolasFuego();
-		 		}
 		 		if (bolasFuego.length() > 0) {
 		 			this.logicaBolasFuego();
 		 		}
@@ -307,7 +304,8 @@ public class Juego extends InterfaceJuego
 	
 	private void manejarColisionesConIslas(Tortuga tortuga) {
 	    Islas islaSeleccionada = null;
-
+	    //La tortuga para empezar a colisionar debe estar abajo de la tercer fila de islas.
+	    if(tortuga.getY() - tortuga.getAlto() /2 > 450) {
 	    for (int j = 0;j < this.islas.length; j++) {
 	    	 Islas isla = this.islas[j];
 	        if (isla != null && j != 0 && tortuga.getX() > isla.getX() - isla.getAncho() / 2
@@ -323,7 +321,7 @@ public class Juego extends InterfaceJuego
 	            }
 	        }
 	    }
-
+	   }
 	    if (tortuga.enIsla && islaSeleccionada != null) {
 	        restringirTortugaEnIsla(tortuga, islaSeleccionada);
 	    }
