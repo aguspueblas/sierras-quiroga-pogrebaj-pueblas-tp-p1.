@@ -268,11 +268,11 @@ public class Juego extends InterfaceJuego
 	
 	private void contadorTEliminadas() {
 		entorno.cambiarFont("Old English Text MT", 30, Color.WHITE, entorno.ITALICA);
-		entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 905, 30);
+		entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 850, 30);
 		entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
-		entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 904, 29);
+		entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 851, 29);
 		entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
-	    	entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 903, 28);		
+	    	entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 852, 28);		
 	}
 	
 	private void finJuego() {
