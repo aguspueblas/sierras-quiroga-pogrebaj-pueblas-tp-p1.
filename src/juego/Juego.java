@@ -43,59 +43,56 @@ public class Juego extends InterfaceJuego
 	private boolean enMenu = true;
 	private int estado = 0; //Variable para representar los 3 estados del juego. 0 INICIO 1 GANO 2 PERDIO. Asi se pueden mostrar 3 menus distintos.
 	
-	Juego()
-	{
-		// Inicializa el objeto entorno
-		this.entorno = new Entorno(this, "Al Rescate de los Gnomos", 1200, 800);
-		this.contadorDeTiempo =0;
-		this.tortugaActiva=0;
-		// Inicializar lo que haga falta para el juego
-		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
-		this.tiempo = entorno.tiempo();
-		this.gnomo = new Gnomo[cantMaxGnomos];
-		this.tAntGnomo = 0;
-			
-		this.islas = new Islas[15];
-		//Isla de la casa gnomos
-		this.islas[0] = new Islas(600, 150, 150, 45, 0);
-		//Segunda fila de isla de abajo hacia arriba
-	    this.islas[1] = new Islas(475, 275, 150, 45, 1);	
-        this.islas[2] = new Islas(725, 275, 150, 45, 1);
-        //Tercer fila de isla de abajo hacia arriba
-        this.islas[3] = new Islas(350, 400, 150, 45, -1);
-        this.islas[4] = new Islas(600, 400, 150, 45, -1);
-        this.islas[5] = new Islas(850, 400, 150, 45, -1);
-        //ante ultimo fila de islas.
-        this.islas[6] = new Islas(225, 525, 150, 45, 1);
-	    this.islas[7] = new Islas(475, 525, 150, 45, 1);	
-        this.islas[8] = new Islas(725, 525, 150, 45, 1);
-        this.islas[9] = new Islas(975, 525, 150, 45, 1);
-        //Ultima fila de islas
-        this.islas[10] = new Islas(100, 650, 150, 45, -1);
-        this.islas[11] = new Islas(350, 650, 150, 45, -1);
-        this.islas[12] = new Islas(600, 650, 150, 45, -1);
-        this.islas[13] = new Islas(850, 650, 150, 45, -1);
-        this.islas[14] = new Islas(1100, 650, 150, 45, -1);
-		this.casita = new Casita(600, 110, 0.03);
-		
-		
-		  // Inicializar tortugas
-        this.tortugas = new Tortuga[5]; // Cantidad de tortugas
-        this.random = new Random();
+	 Juego() {
+	        this.entorno = new Entorno(this, "Al Rescate de los Gnomos", 1200, 800);
+	        this.inicializarJuego(); // Inicializar el estado del juego
+	        this.entorno.iniciar();
+	  }
 
-        for (int i = 0; i < tortugas.length; i++) {
-            int x = random.nextInt(1200); // Posición aleatoria en x
-            int y = 400; // Comienza desde la parte superior
-            
-            tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
-        }
-		this.pep = new Pep(100, 600, 1);
-		
-		this.pepServicio = new PepServicio();
-		// Inicia el juego!
-		this.entorno.iniciar();
-	}
+	    private void inicializarJuego() {
+	        this.contadorDeTiempo = 0;
+	        this.tortugaActiva = 0;
+	        this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
+	        this.tiempo = entorno.tiempo();
+	        this.gnomo = new Gnomo[cantMaxGnomos];
+	        this.tAntGnomo = 0;
 
+	        // Inicializar islas
+	        this.islas = new Islas[15];
+	        this.islas[0] = new Islas(600, 150, 150, 45, 0);
+	        this.islas[1] = new Islas(475, 275, 150, 45, 1);
+	        this.islas[2] = new Islas(725, 275, 150, 45, 1);
+	        this.islas[3] = new Islas(350, 400, 150, 45, -1);
+	        this.islas[4] = new Islas(600, 400, 150, 45, -1);
+	        this.islas[5] = new Islas(850, 400, 150, 45, -1);
+	        this.islas[6] = new Islas(225, 525, 150, 45, 1);
+	        this.islas[7] = new Islas(475, 525, 150, 45, 1);
+	        this.islas[8] = new Islas(725, 525, 150, 45, 1);
+	        this.islas[9] = new Islas(975, 525, 150, 45, 1);
+	        this.islas[10] = new Islas(100, 650, 150, 45, -1);
+	        this.islas[11] = new Islas(350, 650, 150, 45, -1);
+	        this.islas[12] = new Islas(600, 650, 150, 45, -1);
+	        this.islas[13] = new Islas(850, 650, 150, 45, -1);
+	        this.islas[14] = new Islas(1100, 650, 150, 45, -1);
+
+	        this.casita = new Casita(600, 110, 0.03);
+
+	        // Inicializar tortugas
+	        this.tortugas = new Tortuga[5];
+	        this.random = new Random();
+	        for (int i = 0; i < tortugas.length; i++) {
+	            int x = random.nextInt(1200);
+	            int y = 400;
+	            tortugas[i] = new Tortuga(x, y, 1);
+	        }
+
+	        this.pep = new Pep(100, 600, 1);
+	        this.pepServicio = new PepServicio();
+	        this.bolasFuego = new ListaEnlazada();
+	        this.enMenu = true;
+	        this.gPerdidos = 0;
+	        this.cantTortugasMatadasPorPep = 0;
+	    }
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
 	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
@@ -201,6 +198,8 @@ public class Juego extends InterfaceJuego
 	private void resetearVar() {
 		this.enMenu = true;
 		this.gPerdidos = 0;
+		this.tiempo = entorno.tiempo();
+		this.inicializarJuego();
 		this.cantTortugasMatadasPorPep = 0;
 		this.pep = new Pep(100, 600, 1);
 	}
