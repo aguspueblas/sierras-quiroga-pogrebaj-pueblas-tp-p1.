@@ -51,7 +51,6 @@ public class Juego extends InterfaceJuego
 		this.tortugaActiva=0;
 		// Inicializar lo que haga falta para el juego
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
-		this.tiempo = entorno.tiempo();
 		this.gnomo = new Gnomo[cantMaxGnomos];
 		this.tAntGnomo = 0;
 			
@@ -231,6 +230,7 @@ public class Juego extends InterfaceJuego
 	}
 	
 	private void cronometro() {
+		this.tiempo = entorno.tiempo();
 		int milisegundos = this.tiempo;
 		int segundos = 00;
 		int minutos = 00;
@@ -239,20 +239,40 @@ public class Juego extends InterfaceJuego
 			    minutos = segundos/60;
 			    if(segundos > 59)
 			    	segundos-=60;
-			}
-			entorno.escribirTexto("Tiempo: "+minutos+":"+segundos, 20, 20);
 		}
+		entorno.cambiarFont("Old English Text MT", 30, Color.WHITE, entorno.ITALICA);
+		entorno.escribirTexto("Tiempo: "+minutos+":"+segundos, 525, 30);
+		entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
+		entorno.escribirTexto("Tiempo: "+minutos+":"+segundos, 524, 29);
+		entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
+	    	entorno.escribirTexto("Tiempo: "+minutos+":"+segundos, 523, 28);
+	}
 
 	private void contadorGPerdidos() {
-			entorno.escribirTexto("Gnomos perdidos: "+ this.gPerdidos, 20, 40);
+		entorno.cambiarFont("Old English Text MT", 30, Color.WHITE, entorno.ITALICA);
+		entorno.escribirTexto("Gnomos perdidos: "+ this.gPerdidos, 15, 30);
+		entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
+		entorno.escribirTexto("Gnomos perdidos: "+ this.gPerdidos, 14, 29);
+		entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
+	    	entorno.escribirTexto("Gnomos perdidos: "+ this.gPerdidos, 13, 28);
 	}
 
 	private void contadorGRescatados() {
-		entorno.escribirTexto("Gnomos rescatados: "+this.gnomosRescatados, 20, 80);
+		entorno.cambiarFont("Old English Text MT", 30, Color.WHITE, entorno.ITALICA);
+		entorno.escribirTexto("Gnomos rescatados: "+this.gnomosRescatados, 15, 60);
+		entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
+		entorno.escribirTexto("Gnomos rescatados: "+this.gnomosRescatados, 14, 59);
+		entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
+	    	entorno.escribirTexto("Gnomos rescatados: "+this.gnomosRescatados, 13, 58);
 }
 	
 	private void contadorTEliminadas() {
-			entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 20, 60);		
+		entorno.cambiarFont("Old English Text MT", 30, Color.WHITE, entorno.ITALICA);
+		entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 905, 30);
+		entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
+		entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 904, 29);
+		entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
+	    	entorno.escribirTexto("Tortugas eliminadas: "+cantTortugasMatadasPorPep , 903, 28);		
 	}
 	
 	private void finJuego() {
@@ -540,52 +560,53 @@ public class Juego extends InterfaceJuego
 	    entorno.escribirTexto("¡Al Rescate de los Gnomos!", 272, 102);
 	    entorno.cambiarFont("Old English Text MT", 60, miColor, entorno.ITALICA);
 	    entorno.escribirTexto("¡Al Rescate de los Gnomos!", 270, 100);
-	    entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
 	    switch (this.estado) {
-		case 1:
-			entorno.escribirTexto("GANASTE :D", 355, 450);
-			entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
-		    entorno.escribirTexto("GANASTE :D", 354, 451);
-		    entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
-		    entorno.escribirTexto("GANASTE :D", 352, 452);	
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
-		    entorno.escribirTexto("Presiona 'enter' para volver a jugar", 353, 303);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 353, 403);
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor2);
-		    entorno.escribirTexto("Presiona 'enter' para  volver a jugar", 352, 302);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 352, 402);
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor);
-		    entorno.escribirTexto("Presiona 'enter' para volver a jugar", 350, 300);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 350, 400);
-			break;
-		case 2:
-			entorno.escribirTexto("PERDISTE D:", 454, 500);
-			entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
-		    entorno.escribirTexto("PERDISTE D:", 452, 499);
-		    entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
-		    entorno.escribirTexto("PERDISTE D:", 450, 497);	
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
-		    entorno.escribirTexto("Presiona 'enter' para volver a jugar", 353, 303);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 353, 403);
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor2);
-		    entorno.escribirTexto("Presiona 'enter' para volver a jugar", 352, 302);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 352, 402);
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor);
-		    entorno.escribirTexto("Presiona 'enter' para volver a jugar", 350, 300);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 350, 400);
-			break;
-		default:
-			entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
-		    entorno.escribirTexto("Presiona 'enter' para jugar", 353, 303);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 353, 403);
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor2);
-		    entorno.escribirTexto("Presiona 'enter' para jugar", 352, 302);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 352, 402);
-		    entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor);
-		    entorno.escribirTexto("Presiona 'enter' para jugar", 350, 300);
-		    entorno.escribirTexto("Presiona 'escape' para salir", 350, 400);
-		    break;
-		}
+	    case 1:
+		entorno.cambiarFont("Old English Text MT", 30 , Color.WHITE);
+		entorno.escribirTexto("GANASTE :D", 355, 450);
+		entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
+		entorno.escribirTexto("GANASTE :D", 354, 451);
+		entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
+		entorno.escribirTexto("GANASTE :D", 352, 452);	
+		entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
+		entorno.escribirTexto("Presiona 'enter' para volver a jugar", 353, 303);
+		entorno.escribirTexto("Presiona 'escape' para salir", 353, 403);
+		entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor2);
+		entorno.escribirTexto("Presiona 'enter' para  volver a jugar", 352, 302);
+		entorno.escribirTexto("Presiona 'escape' para salir", 352, 402);
+		entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor);
+		entorno.escribirTexto("Presiona 'enter' para volver a jugar", 350, 300);
+		entorno.escribirTexto("Presiona 'escape' para salir", 350, 400);
+		break;
+	    case 2:
+		entorno.cambiarFont("Old English Text MT", 30, Color.WHITE, entorno.ITALICA);
+		entorno.escribirTexto("PERDISTE D:", 454, 500);
+		entorno.cambiarFont("Old English Text MT", 30, miColor2, entorno.ITALICA);
+		entorno.escribirTexto("PERDISTE D:", 452, 499);
+		entorno.cambiarFont("Old English Text MT", 30, miColor, entorno.ITALICA);
+		entorno.escribirTexto("PERDISTE D:", 450, 497);	
+		entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
+		entorno.escribirTexto("Presiona 'enter' para volver a jugar", 353, 303);
+		entorno.escribirTexto("Presiona 'escape' para salir", 353, 403);
+		entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor2);
+		entorno.escribirTexto("Presiona 'enter' para volver a jugar", 352, 302);
+		entorno.escribirTexto("Presiona 'escape' para salir", 352, 402);
+		entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor);
+		entorno.escribirTexto("Presiona 'enter' para volver a jugar", 350, 300);
+		entorno.escribirTexto("Presiona 'escape' para salir", 350, 400);
+		break;
+	    default:
+		entorno.cambiarFont("Rockwell Extra Bold", 30 , Color.WHITE);
+		entorno.escribirTexto("Presiona 'enter' para jugar", 353, 303);
+	        entorno.escribirTexto("Presiona 'escape' para salir", 353, 403);
+	        entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor2);
+	        entorno.escribirTexto("Presiona 'enter' para jugar", 352, 302);
+	        entorno.escribirTexto("Presiona 'escape' para salir", 352, 402);
+	        entorno.cambiarFont("Rockwell Extra Bold", 30 , miColor);
+	        entorno.escribirTexto("Presiona 'enter' para jugar", 350, 300);
+	        entorno.escribirTexto("Presiona 'escape' para salir", 350, 400);
+	        break;
+	    }
 	}
 	
 	@SuppressWarnings("unused")
@@ -596,13 +617,15 @@ public class Juego extends InterfaceJuego
 	
 	//Chequea la colision entre PEP y los GNOMOS
 	public boolean colisionEntrePepYGnmonos (Gnomo gnomo) {
-		// Chequea que pep colisione en X con el gnomo
-        boolean tocaX = gnomo.getX() - gnomo.getAncho() / 2 < this.pep.getX() &&
+		if(this.pep.getY() > 400 + 45/2) {
+			// Chequea que pep colisione en X con el gnomo
+        		boolean tocaX = gnomo.getX() - gnomo.getAncho() / 2 < this.pep.getX() &&
         				gnomo.getX() + gnomo.getAncho() / 2 > this.pep.getX();
-        // Chequea que pep colisione en y con el gnomo.
-        boolean tocaY = gnomo.getY() + gnomo.getAlto() / 2 > this.pep.getY() - this.pep.getAlto() / 2 &&
+       			// Chequea que pep colisione en y con el gnomo.
+        		boolean tocaY = gnomo.getY() + gnomo.getAlto() / 2 > this.pep.getY() - this.pep.getAlto() / 2 &&
         				gnomo.getY() - gnomo.getAlto() / 2 < this.pep.getY() + this.pep.getAlto() / 2;
-        return tocaX && tocaY;
-
+        		return tocaX && tocaY;
+		}
+		return false;
 	}
 }
