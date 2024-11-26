@@ -37,7 +37,7 @@ public class PepServicio {
 		if (!pepColisionConIslaParteIzquierda(isla) && pepMoverIzq) {
 			this.pep.moverHaciaIzquierda();
 		}
-		if (!this.pepColisionConIslaParteBaja(isla) && pepSalto && this.pep.getY() > PEP_MAX_Y ) {
+		if (!this.pepColisionConIslaParteBaja(isla) && pepSalto) {
 			this.pep.saltar();
 		}
 		
