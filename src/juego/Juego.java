@@ -617,13 +617,15 @@ public class Juego extends InterfaceJuego
 	
 	//Chequea la colision entre PEP y los GNOMOS
 	public boolean colisionEntrePepYGnmonos (Gnomo gnomo) {
-		// Chequea que pep colisione en X con el gnomo
-        boolean tocaX = gnomo.getX() - gnomo.getAncho() / 2 < this.pep.getX() &&
+		if(this.pep.getY() > 400 + 45/2) {
+			// Chequea que pep colisione en X con el gnomo
+        		boolean tocaX = gnomo.getX() - gnomo.getAncho() / 2 < this.pep.getX() &&
         				gnomo.getX() + gnomo.getAncho() / 2 > this.pep.getX();
-        // Chequea que pep colisione en y con el gnomo.
-        boolean tocaY = gnomo.getY() + gnomo.getAlto() / 2 > this.pep.getY() - this.pep.getAlto() / 2 &&
+       			// Chequea que pep colisione en y con el gnomo.
+        		boolean tocaY = gnomo.getY() + gnomo.getAlto() / 2 > this.pep.getY() - this.pep.getAlto() / 2 &&
         				gnomo.getY() - gnomo.getAlto() / 2 < this.pep.getY() + this.pep.getAlto() / 2;
-        return tocaX && tocaY;
-
+        		return tocaX && tocaY;
+		}
+		return false;
 	}
 }
