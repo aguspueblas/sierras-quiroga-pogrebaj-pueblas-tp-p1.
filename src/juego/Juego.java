@@ -200,6 +200,8 @@ public class Juego extends InterfaceJuego
 	}
 	private void resetearVar() {
 		this.enMenu = true;
+		this.gPerdidos = 0;
+		this.cantTortugasMatadasPorPep = 0;
 		this.pep = new Pep(100, 600, 1);
 	}
 	
