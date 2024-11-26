@@ -53,7 +53,6 @@ public class Juego extends InterfaceJuego
 	        this.contadorDeTiempo = 0;
 	        this.tortugaActiva = 0;
 	        this.fondo = Herramientas.cargarImagen("imagenes/fondo.jpg");
-	        this.tiempo = entorno.tiempo();
 	        this.gnomo = new Gnomo[cantMaxGnomos];
 	        this.tAntGnomo = 0;
 
@@ -205,6 +204,7 @@ public class Juego extends InterfaceJuego
 	}
 	
 	private void cronometro() {
+		this.tiempo = entorno.tiempo();
 		int milisegundos = this.tiempo;
 		int segundos = 00;
 		int minutos = 00;
