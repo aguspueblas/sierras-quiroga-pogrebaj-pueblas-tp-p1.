@@ -42,7 +42,7 @@ public class Juego extends InterfaceJuego
 	public PepServicio pepServicio;
 	private boolean enMenu = true;
 	private int estado = 0; //Variable para representar los 3 estados del juego. 0 INICIO 1 GANO 2 PERDIO. Asi se pueden mostrar 3 menus distintos.
-	private int gnomosRescatados = 5;
+	private int gnomosRescatados = 0;
 	Juego()
 	{
 		// Inicializa el objeto entorno
