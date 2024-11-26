@@ -83,12 +83,7 @@ public class Juego extends InterfaceJuego
         this.tortugas = new Tortuga[5]; // Cantidad de tortugas
         this.random = new Random();
 
-        for (int i = 0; i < tortugas.length; i++) {
-            int x = random.nextInt(1200); // Posición aleatoria en x
-            int y = 400; // Comienza desde la parte superior
-            
-            tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
-        }
+        this.iniciarTortugas(tortugas);
 		this.pep = new Pep(100, 600, 1);
 		this.pepServicio = new PepServicio();
 		// Inicia el juego!
@@ -116,6 +111,7 @@ public class Juego extends InterfaceJuego
 		if (this.gnomosRescatados >= 5) {
 			this.estado = 1;
 			this.enMenu = true;
+			this.resetearVar();
 		}
 		
 		if (this.enMenu) {
@@ -126,7 +122,7 @@ public class Juego extends InterfaceJuego
 	            this.enMenu = false;
 	        }
 		} else {
-			if (murioPep) {
+			if (murioPep || this.gPerdidos == 10) {
 				this.pep = null;
 				this.finJuego();
 				this.estado = 2;
@@ -215,11 +211,22 @@ public class Juego extends InterfaceJuego
 		}
  		
 	}
+	
+	private void iniciarTortugas(Tortuga[] tortugas) {
+		for (int i = 0; i < tortugas.length; i++) {
+            int x = random.nextInt(1200); // Posición aleatoria en x
+            int y = 400; // Comienza desde la parte superior
+            
+            tortugas[i] = new Tortuga(x, y, 1); // Velocidad de caída
+        }
+		
+	}
 	private void resetearVar() {
 		this.enMenu = true;
 		this.gPerdidos = 0;
 		this.cantTortugasMatadasPorPep = 0;
 		this.pep = new Pep(100, 600, 1);
+		this.iniciarTortugas(tortugas);
 	}
 	
 	private void cronometro() {
@@ -236,7 +243,7 @@ public class Juego extends InterfaceJuego
 		}
 
 	private void contadorGPerdidos() {
-			entorno.escribirTexto("Gnomos perdidos: "+gPerdidos, 20, 40);
+			entorno.escribirTexto("Gnomos perdidos: "+ this.gPerdidos, 20, 40);
 	}
 
 	private void contadorGRescatados() {
